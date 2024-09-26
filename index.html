@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A simple color picker and conversor with minimalistic design and support to HEX, RGB, HSL, HSV and CMYK."
+    />
+    <meta
+      name="keywords"
+      content="convert to hex, convert to rgb, convert to hsl, convert to hsv, convert to cmyk, color picker, color selector"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            keyframes: {
+              fall: {
+                "0%": { transform: "translate(-50%, -50%)" },
+                "100%": { transform: "translate(-50%, 10vh)" },
+              },
+              fadeOut: {
+                "0%": { opacity: "1" },
+                "100%": { opacity: "0" },
+              },
+            },
+            animation: {
+              fall: "fall 0.5s ease-out forwards",
+              fadeOut: "fadeOut 0.5s ease-out forwards",
+            },
+          },
+        },
+      };
+    </script>
+
+    <link rel="stylesheet" href="style.css" />
+    <title>Color Picker</title>
+  </head>
+
+  <body class="bg-[#011936] text-[#C0DFA1] relative">
+    <div
+      id="copy-alert"
+      class="hidden absolute text-center w-4/5 max-w-72 left-[50%] transform -translate-x-1/2 translate-y-1/2 px-6 py-4 ring-1 ring-[#C0DFA1] bg-[#011936] rounded-2xl z-10"
+    >
+      Cor copiada para a sua área de transferência!
+    </div>
+
+    <div class="container flex flex-col justify-between mx-auto h-dvh p-4">
+      <h1 class="text-4xl font-bold">Color Picker</h1>
+
+      <div class="self-center flex max-sm:flex-col max-sm:my-16 gap-6">
+        <div class="space-y-2">
+          <div id="color-picker" class="relative">
+            <div id="bg-current" class="top-0 size-80 bg-red-500"></div>
+            <div id="bg-white" class="absolute top-0 size-80"></div>
+            <div
+              id="bg-black"
+              class="absolute top-0 size-80"
+              onclick="onPickerChange(event)"
+            ></div>
+            <div
+              id="color-picker-indicator"
+              class="absolute size-6 rounded-full ring-2 ring-[#011936] left-[50%] bottom-[50%] transform -translate-x-1/2 translate-y-1/2"
+            ></div>
+          </div>
+
+          <div>
+            <input
+              id="color-selector"
+              type="range"
+              min="0"
+              max="360"
+              step="1"
+              class="w-full"
+              onchange="changeColorRange(this.value)"
+            />
+          </div>
+        </div>
+
+        <div class="flex flex-col w-72 max-sm:w-full justify-between">
+          <div>
+            <p class="col-span-2 text-sm">HEX</p>
+            <div class="flex items-center gap-1">
+              <input
+                id="hex"
+                type="text"
+                class="w-full bg-transparent outline-none ring-1 ring-[#C0DFA1] rounded-lg py-1 px-2 h-8"
+                maxlength="7"
+                onchange="color.updateFromHex(this.value); updateValues()"
+              />
+              <button
+                class="p-2 rounded-xl hover:bg-[#465362]"
+                title="Copiar"
+                onclick="copyToClipboard(this.previousElementSibling)"
+              >
+                <img
+                  src="assets/clipboard.svg"
+                  alt="Ícone copiar"
+                  class="size-6"
+                />
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <p class="col-span-2 text-sm">RGB</p>
+            <div class="flex items-center gap-1">
+              <input
+                id="rgb"
+                type="text"
+                class="w-full bg-transparent outline-none ring-1 ring-[#C0DFA1] rounded-lg py-1 px-2 h-8"
+                maxlength="18"
+                onchange="color.updateFromRgb(this.value); updateValues()"
+              />
+              <button
+                class="p-2 rounded-xl hover:bg-[#465362]"
+                title="Copiar"
+                onclick="copyToClipboard(this.previousElementSibling)"
+              >
+                <img
+                  src="assets/clipboard.svg"
+                  alt="Ícone copiar"
+                  class="size-6"
+                />
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <p class="col-span-2 text-sm">HSL</p>
+            <div class="flex items-center gap-1">
+              <input
+                id="hsl"
+                type="text"
+                class="w-full bg-transparent outline-none ring-1 ring-[#C0DFA1] rounded-lg py-1 px-2 h-8"
+                maxlength="21"
+                onchange="color.updateFromHsl(this.value); updateValues()"
+              />
+              <button
+                class="p-2 rounded-xl hover:bg-[#465362]"
+                title="Copiar"
+                onclick="copyToClipboard(this.previousElementSibling)"
+              >
+                <img
+                  src="assets/clipboard.svg"
+                  alt="Ícone copiar"
+                  class="size-6"
+                />
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <p class="col-span-2 text-sm">HSV</p>
+            <div class="flex items-center gap-1">
+              <input
+                id="hsv"
+                type="text"
+                class="w-full bg-transparent outline-none ring-1 ring-[#C0DFA1] rounded-lg py-1 px-2 h-8"
+                maxlength="21"
+                onchange="color.updateFromHsv(this.value); updateValues()"
+              />
+              <button
+                class="p-2 rounded-xl hover:bg-[#465362]"
+                title="Copiar"
+                onclick="copyToClipboard(this.previousElementSibling)"
+              >
+                <img
+                  src="assets/clipboard.svg"
+                  alt="Ícone copiar"
+                  class="size-6"
+                />
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <p class="col-span-2 text-sm">CMYK</p>
+            <div class="flex items-center gap-1">
+              <input
+                id="cmyk"
+                type="text"
+                class="w-full bg-transparent outline-none ring-1 ring-[#C0DFA1] rounded-lg py-1 px-2 h-8"
+                maxlength="28"
+                onchange="color.updateFromCmyk(this.value); updateValues()"
+              />
+              <button
+                class="p-2 rounded-xl hover:bg-[#465362]"
+                title="Copiar"
+                onclick="copyToClipboard(this.previousElementSibling)"
+              >
+                <img
+                  src="assets/clipboard.svg"
+                  alt="Ícone copiar"
+                  class="size-6"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <a
+        target="_blank"
+        href="https://github.com/weslley41/color-picker"
+        class="flex items-center self-center gap-x-1 w-fit text-sm pb-4"
+      >
+        Source Code:
+        <img src="assets/github.svg" alt="Ícone Github" class="size-4" />
+        Weslley41/color-picker
+      </a>
+    </div>
+
+    <script src="color.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

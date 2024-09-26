@@ -1,0 +1,93 @@
+#png-background {
+  background-image: url("assets/background_png.svg");
+  background-size: 16px 16px;
+}
+
+#color-picker > #bg-black {
+  background-image: linear-gradient(to bottom, transparent 0%, black 100%);
+  background-color: initial;
+}
+
+#color-picker > #bg-white {
+  background-image: linear-gradient(to right, #fff 0%, transparent 100%);
+  background-color: initial;
+}
+
+/*********** Baseline, reset styles ***********/
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Removes default focus */
+input[type="range"]:focus {
+  outline: none;
+}
+
+/******** Chrome, Safari, Opera and Edge Chromium styles ********/
+/* slider track */
+input[type="range"]::-webkit-slider-runnable-track {
+  background-image: linear-gradient(
+    to right,
+    rgb(204, 0, 0),
+    rgb(153, 153, 0),
+    rgb(51, 204, 0),
+    rgb(0, 204, 204),
+    rgb(0, 0, 204),
+    rgb(204, 0, 204),
+    rgb(204, 0, 0)
+  );
+  background-color: initial;
+  border-radius: 0.5rem;
+  height: 1rem;
+}
+
+/* slider thumb */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  margin-top: -4px; /* Centers thumb on the track */
+  background-color: #465362;
+  border-radius: 0.5rem;
+  height: 1.5rem;
+  width: 0.5rem;
+}
+
+/* slider progress */
+input[type="range"]::-webkit-progress-value {
+  background-color: green;
+}
+
+/*********** Firefox styles ***********/
+/* slider track */
+input[type="range"]::-moz-range-track {
+  background-image: linear-gradient(
+    to right,
+    rgb(204, 0, 0),
+    rgb(153, 153, 0),
+    rgb(51, 204, 0),
+    rgb(0, 204, 204),
+    rgb(0, 0, 204),
+    rgb(204, 0, 204),
+    rgb(204, 0, 0)
+  );
+  background-color: initial;
+  border-radius: 0.5rem;
+  height: 1rem;
+}
+
+/* slider thumb */
+input[type="range"]::-moz-range-thumb {
+  background-color: #465362;
+  border: none; /*Removes extra border that FF applies*/
+  border-radius: 0.5rem;
+  height: 1.5rem;
+  width: 0.5rem;
+}
+
+/* slider progress */
+input[type="range"]::-moz-range-progress {
+  background-color: green;
+}
